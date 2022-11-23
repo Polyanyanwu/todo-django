@@ -30,7 +30,18 @@ DEBUG = False
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-ALLOWED_HOSTS = ["codestar-poly.herokuapp.com", "localhost"]
+
+development = os.environ.get('DEVELOPMENT', False)
+if development:
+    ALLOWED_HOSTS = ['localhost', os.environ.get("HEROKU_HOSTNAME")]
+    DEBUG = True
+else:
+    DEBUG = False
+    ALLOWED_HOSTS = ['localhost']
+    # Add Render.com URL to allowed hosts
+    RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+    if RENDER_EXTERNAL_HOSTNAME:
+        ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 
